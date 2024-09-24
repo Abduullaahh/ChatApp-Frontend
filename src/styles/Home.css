@@ -1,0 +1,43 @@
+/* client/src/components/HomeStyles.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+  }
+  
+  .home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    transition: all 0.3s ease; /* Transition for smooth effects */
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+  
+  .navbar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .nav-button {
+    margin-left: 15px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transition for buttons */
+  }
+  
+  .nav-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Slightly enlarge button on hover */
+  }
