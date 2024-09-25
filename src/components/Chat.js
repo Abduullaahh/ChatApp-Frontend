@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useSubscription } from '@apollo/client';
 import { SEND_MESSAGE } from '../GraphQL/mutations/chat';
 import { GET_MESSAGES } from '../GraphQL/queries/chat';
 import { GET_USERS } from '../GraphQL/queries/users';
+import { MESSAGE_RECEIVED } from '../GraphQL/subscriptions/chat';
 import { jwtDecode } from 'jwt-decode';
 import '../styles/chat.css';
 
@@ -21,6 +22,15 @@ const Chat = () => {
     variables: { username: sender },
     skip: !sender,
   });
+
+  const { data, loading, error } = useSubscription(MESSAGE_RECEIVED, {
+    variables: { username: sender },
+    skip: !sender,
+    onSubscriptionData: ({ subscriptionData }) => { // {{ edit_1 }}
+      console.log('New message received:', subscriptionData.data); // Log the received data
+    },
+  });
+  console.log(data, loading, error);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -79,6 +89,13 @@ const Chat = () => {
       (msg.receiver === receiverPhone && msg.sender === sender) ||  // Sent by current user to receiver
       (msg.sender === receiverPhone && msg.receiver === sender)    // Received by current user from receiver
   );
+
+  useEffect(() => {
+    if (data) {
+      console.log('New message received:', data.messageReceived);
+      refetch();
+    }
+  }, [data, refetch]);
 
   return (
     <div className="chat-container">
