@@ -17,7 +17,7 @@ const Chat = () => {
   const { data: usersData, loading: usersLoading, error: usersError } = useQuery(GET_USERS);
 
   // Fetch messages for the current user
-  const { data: messagesData, loading: messagesLoading, error: messagesError } = useQuery(GET_MESSAGES, {
+  const { data: messagesData, loading: messagesLoading, error: messagesError, refetch } = useQuery(GET_MESSAGES, {
     variables: { username: sender },
     skip: !sender,
   });
@@ -56,6 +56,7 @@ const Chat = () => {
       if (data.saveSentMessage) {
         console.log('Message sent successfully');
         setContent('');
+        refetch();
       } else {
         console.error('Failed to send message');
       }
@@ -71,7 +72,7 @@ const Chat = () => {
     setReceiverName(user.name);
     setReceiverPhone(user.phoneNumber);
   };
-console.log(messagesData)
+
   // Filter messages to show all between the current user (sender) and the selected receiver
   const filteredMessages = messagesData?.getMessages.filter(
     (msg) =>
